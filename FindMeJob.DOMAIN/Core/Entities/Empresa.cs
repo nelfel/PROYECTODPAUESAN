@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FindMeJob.DOMAIN.Core.Entities;
 
 namespace FindMeJob.DOMAIN.Core.Entities;
 
@@ -10,13 +9,17 @@ public partial class Empresa
 
     public string? Nombre { get; set; }
 
-    public string? Email { get; set; }
+    public string? CorreoElectronico { get; set; }
 
-    public string? Password { get; set; }
+    public string? Contrasena { get; set; }
 
     public string? Telefono { get; set; }
 
     public string? Direccion { get; set; }
 
-    public virtual ICollection<OfertaTrabajo> OfertaTrabajos { get; set; } = new List<OfertaTrabajo>();
+    public string? Ruc { get; set; }
+
+    public byte[]? Logo { get; set; }
+
+    public virtual ICollection<OfertaTrabajo> OfertaTrabajo { get; set; } = new List<OfertaTrabajo>();
 }

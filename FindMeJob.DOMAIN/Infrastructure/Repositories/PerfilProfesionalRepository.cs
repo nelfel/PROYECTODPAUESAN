@@ -9,9 +9,9 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 {
     public class PerfilProfesionalRepository : IPerfilProfesionalRepository
     {
-        private readonly FMJDbContext _dbContext;
+        private readonly FindMeJobContext _dbContext;
 
-        public PerfilProfesionalRepository(FMJDbContext dbContext)
+        public PerfilProfesionalRepository(FindMeJobContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -19,27 +19,27 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
         public async Task<bool> Delete(int id)
         {
             var item = await _dbContext
-                            .PerfilProfesionals
+                            .PerfilProfesional
                             .Where(x => x.Id == id)
                             .FirstOrDefaultAsync();
             if (item == null)
                 return false;
 
-            _dbContext.PerfilProfesionals.Remove(item);
+            _dbContext.PerfilProfesional.Remove(item);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }
 
         public async Task<IEnumerable<PerfilProfesional>> GetAll()
         {
-            var result = await _dbContext.PerfilProfesionals.ToListAsync();
+            var result = await _dbContext.PerfilProfesional.ToListAsync();
             return result;
         }
 
         public async Task<PerfilProfesional> GetById(int id)
         {
             var result = await _dbContext
-                .PerfilProfesionals
+                .PerfilProfesional
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -49,7 +49,7 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
         public async Task<IEnumerable<PerfilProfesional>> GetPerfilProfesionalByDescripcion(string descripcion)
         {
             var result = await _dbContext
-                .PerfilProfesionals
+                .PerfilProfesional
                 .Where(x => x.Descripcion.Contains(descripcion))
                 .ToListAsync();
 
@@ -58,14 +58,14 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 
         public async Task<bool> Insert(PerfilProfesional perfilProfesional)
         {
-            await _dbContext.PerfilProfesionals.AddAsync(perfilProfesional);
+            await _dbContext.PerfilProfesional.AddAsync(perfilProfesional);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }
 
         public async Task<bool> Update(PerfilProfesional perfilProfesional)
         {
-            _dbContext.PerfilProfesionals.Update(perfilProfesional);
+            _dbContext.PerfilProfesional.Update(perfilProfesional);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }

@@ -7,9 +7,9 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 {
     public class EmpresaRepository : IEmpresaRepository
     {
-        private readonly FMJDbContext _dbContext;
+        private readonly FindMeJobContext _dbContext;
 
-        public EmpresaRepository(FMJDbContext dbContext)
+        public EmpresaRepository(FindMeJobContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -17,14 +17,14 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
         public async Task<bool> Delete(int id)
         {
             var empresa = await _dbContext
-                            .Empresas
+                            .Empresa
                             .Where(x => x.Id == id)
                             .FirstOrDefaultAsync();
 
             if (empresa == null)
                 return false;
 
-            _dbContext.Empresas.Remove(empresa);
+            _dbContext.Empresa.Remove(empresa);
 
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;    
@@ -32,14 +32,14 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 
         public async Task<IEnumerable<Empresa>> GetAll()
         {
-            var result = await _dbContext.Empresas.ToListAsync();
+            var result = await _dbContext.Empresa.ToListAsync();
             return result;
         }
 
         public async Task<Empresa> GetById(int id)
         {
             var result = await _dbContext
-                .Empresas
+                .Empresa
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -48,23 +48,23 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 
         public async Task<bool> Insert(Empresa empresa)
         {
-            await _dbContext.Empresas.AddAsync(empresa);
+            await _dbContext.Empresa.AddAsync(empresa);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }
 
-        public Task<Empresa> Login(string email, string password)
+        public Task<Empresa> Login(string correoElectronico, string contrasena)
         {
             var result = _dbContext
-                .Empresas
-                .Where(x => x.Email == email && x.Password == password)
+                .Empresa
+                .Where(x => x.CorreoElectronico == correoElectronico && x.Contrasena == contrasena)
                 .FirstOrDefaultAsync();
             return result;
         }
 
         public async Task<bool> Update(Empresa empresa)
         {
-            _dbContext.Empresas.Update(empresa);
+            _dbContext.Empresa.Update(empresa);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }

@@ -9,6 +9,6 @@ namespace FindMeJob.DOMAIN.Core.Interfaces
         Task<bool> Insert(Usuario usuario);
         Task<bool> Update(Usuario usuario);
         Task<bool> Delete(int id);
-        Task<Usuario> Login(string email, string password);
+        Task<Usuario> Login(string correoElectronico, string contrasena);
     }
 }

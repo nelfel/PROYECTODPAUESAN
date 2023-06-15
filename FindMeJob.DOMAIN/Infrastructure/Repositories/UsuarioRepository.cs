@@ -7,9 +7,9 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly FMJDbContext _dbContext;
+        private readonly FindMeJobContext _dbContext;
 
-        public UsuarioRepository(FMJDbContext dbContext)
+        public UsuarioRepository(FindMeJobContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -17,28 +17,28 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
         public async Task<bool> Delete(int id)
         {
             var usuario = await _dbContext
-                            .Usuarios
+                            .Usuario
                             .Where(x => x.Id == id)
                             .FirstOrDefaultAsync();
 
             if (usuario == null)
                 return false;
 
-            _dbContext.Usuarios.Remove(usuario);
+            _dbContext.Usuario.Remove(usuario);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }
 
         public async Task<IEnumerable<Usuario>> GetAll()
         {
-            var result = await _dbContext.Usuarios.ToListAsync();
+            var result = await _dbContext.Usuario.ToListAsync();
             return result;
         }
 
         public async Task<Usuario> GetById(int id)
         {
             var result = await _dbContext
-               .Usuarios
+               .Usuario
                .Where(x => x.Id == id)
                .FirstOrDefaultAsync();
 
@@ -47,16 +47,16 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 
         public async Task<bool> Insert(Usuario usuario)
         {
-            await _dbContext.Usuarios.AddAsync(usuario);
+            await _dbContext.Usuario.AddAsync(usuario);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }
 
-        public Task<Usuario> Login(string email, string password)
+        public Task<Usuario> Login(string correoelectronico, string contrasena)
         {
             var result = _dbContext
-                .Usuarios
-                .Where(x => x.Email == email && x.Password == password)
+                .Usuario
+                .Where(x => x.CorreoElectronico == correoelectronico && x.Contrasena == contrasena)
                 .FirstOrDefaultAsync();
 
             return result;
@@ -64,7 +64,7 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 
         public async Task<bool> Update(Usuario usuario)
         {
-            _dbContext.Usuarios.Update(usuario);
+            _dbContext.Usuario.Update(usuario);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }

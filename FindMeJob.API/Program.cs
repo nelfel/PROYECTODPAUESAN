@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 var _confg = builder.Configuration;
 var _cnx = _confg.GetConnectionString("CnFindMeJob");
 
-builder.Services.AddDbContext<FMJDbContext>(options =>
+builder.Services.AddDbContext<FindMeJobContext>(options =>
 {
     options.UseSqlServer(_cnx);
 });

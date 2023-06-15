@@ -7,8 +7,8 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 {
     public class OfertaTrabajoRepository : IOfertaTrabajoRepository
     {
-        private readonly FMJDbContext _dbContext;
-        public OfertaTrabajoRepository(FMJDbContext dbContext)
+        private readonly FindMeJobContext _dbContext;
+        public OfertaTrabajoRepository(FindMeJobContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -16,27 +16,27 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
         public async Task<bool> Delete(int id)
         {
             var item = await _dbContext
-                            .OfertaTrabajos
+                            .OfertaTrabajo
                             .Where(x => x.Id == id)
                             .FirstOrDefaultAsync(); 
            if (item == null)
                 return false;
 
-            _dbContext.OfertaTrabajos.Remove(item);
+            _dbContext.OfertaTrabajo.Remove(item);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }
 
         public async Task<IEnumerable<OfertaTrabajo>> GetAll()
         {
-            var result = await _dbContext.OfertaTrabajos.ToListAsync();
+            var result = await _dbContext.OfertaTrabajo.ToListAsync();
             return result;
         }
 
         public async Task<OfertaTrabajo> GetById(int id)
         {
             var result = await _dbContext
-                .OfertaTrabajos
+                .OfertaTrabajo
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
 
@@ -46,7 +46,7 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
         public async Task<IEnumerable<OfertaTrabajo>> GetOfertasTrabajoByUsuario(int idUsuario)
         {
             var result = await _dbContext
-                .OfertaTrabajos
+                .OfertaTrabajo
                 .Where(x => x.EmpresaId == idUsuario)
                 .ToListAsync();
 
@@ -55,14 +55,14 @@ namespace FindMeJob.DOMAIN.Infrastructure.Repositories
 
         public async Task<bool> Insert(OfertaTrabajo ofertaTrabajo)
         {
-            await _dbContext.OfertaTrabajos.AddAsync(ofertaTrabajo);
+            await _dbContext.OfertaTrabajo.AddAsync(ofertaTrabajo);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }
 
         public async Task<bool> Update(OfertaTrabajo ofertaTrabajo)
         {
-            _dbContext.OfertaTrabajos.Update(ofertaTrabajo);
+            _dbContext.OfertaTrabajo.Update(ofertaTrabajo);
             var rows = await _dbContext.SaveChangesAsync();
             return rows > 0;
         }
